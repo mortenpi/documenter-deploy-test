@@ -1,3 +1,5 @@
 using Documenter
 makedocs(sitename="test")
-deploydocs()
+deploydocs(
+    repo = "github.com/mortenpi/documenter-deploy-test.git"
+)
