@@ -36,10 +36,14 @@ jobs:
       # This is really all you care about; 2-steps process
       # step 1, assumming the documentation Project.toml file is in `docs` folder
       - name: Install docs dependencies
-        run: julia --project=docs/ 'using Pkg; Pkg.instantiate()'
+        run: julia --project=docs/ -e 'using Pkg; Pkg.instantiate()'
       # step 2 (note project path remains the same!)
       - name: Build and deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # If authenticating with GitHub Actions token
-          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # If authenticating with SSH deploy key
+          # This uses the workflow's GitHub Actions token to authenticate
+          # This is the simpler option, but has some limitations.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The alternative is to use an SSH-key, which is more powerful, but is
+          # a bit more complicated to set up.
+          #DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
         run: julia --project=docs/ docs/make.jl
